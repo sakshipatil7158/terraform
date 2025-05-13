@@ -53,7 +53,7 @@ resource "aws_route_table" "new_vpc1_route_table" {
     vpc_id = aws_vpc.new_vpc1.id
     route {
         cidr_block = "0.0.0.0/0"
-        gateway_id = "aws_internet_gateway.new_vpc1.id"
+        gateway_id = "aws_internet_gateway.new_vpc1_igw.id"
 
     }
 
