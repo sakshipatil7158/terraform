@@ -62,11 +62,11 @@ resource "aws_route_table" "new_vpc1_route_table" {
     }
 }
 
-data "aws_security_group" "launch-wizard-11" {
+data "aws_security_group" "sec-group" {
     
     filter {
       name="group-name"
-      values = [ "launch-wizard-11" ]
+      values = [ "sec-group" ]
     }
 }
 
@@ -74,7 +74,7 @@ resource "aws_instance" "terraform" {
   ami = "ami-0c1ac8a41498c1a9c"
   instance_type = var.instance_type
   key_name = "newins"
-  vpc_security_group_ids ="data.aws_security_group.launch-wizard-11"
+  vpc_security_group_ids =["data.aws_security_group.sec-group"]
   
 
   tags = {
