@@ -14,7 +14,7 @@ terraform {
 
 #create vpc
 resource "aws_vpc" "new_vpc1" {
-  cidr_block = "var.cider"
+  cidr_block = var.cidr
   tags = {
     Name="var.vpcname"
   }
@@ -78,7 +78,7 @@ resource "aws_instance" "terraform" {
   
 
   tags = {
-    Name = "HelloWorld"
+    Name = "Vpc_instance"
   }
 }
 

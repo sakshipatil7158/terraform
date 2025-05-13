@@ -7,10 +7,10 @@ variable "vpcname" {
   default = "vpc1"
 }
 
-variable "cider" {
+variable "cidr" {
   default = "172.25.0.0/16"
 }
 
 variable "public_subnet" {
-  default = "172.25.0.0/20"
+  default = "pub_subnet"
 }
