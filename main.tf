@@ -62,11 +62,11 @@ resource "aws_route_table" "new_vpc1_route_table" {
     }
 }
 
-data "aws_security_group" "sec_group1" {
+data "aws_security_group" "launch-wizard-11" {
     
     filter {
       name="group-name"
-      values = [ "sec_group1" ]
+      values = [ "launch-wizard-11" ]
     }
 }
 
