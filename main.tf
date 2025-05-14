@@ -112,7 +112,7 @@ resource "aws_instance" "terraform" {
   instance_type = var.instance_type
   key_name = "newins"
   vpc_security_group_ids = [aws_security_group.my_sec_group.id]
-  subnet_id = "aws_subnet.public_subnet.id"
+  subnet_id      = aws_subnet.public_subnet.id
   
 
   tags = {
