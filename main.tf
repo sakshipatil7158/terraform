@@ -89,7 +89,7 @@ resource "aws_security_group" "my_sec_group" {
     description = "TLS from VPC"
     from_port   = 22
     to_port     = 22
-    protocol    = "ssh"
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
