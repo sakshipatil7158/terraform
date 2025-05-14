@@ -96,7 +96,7 @@ resource "aws_security_group" "my_sec_group" {
    ingress {
     description = "TLS from VPC"
     from_port   = 80
-    to_port     = 80
+    to_port     = -1
     protocol    = "http"
     cidr_blocks =  ["0.0.0.0/0"]
   }
