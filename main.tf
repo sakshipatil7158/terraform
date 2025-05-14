@@ -24,7 +24,7 @@ resource "aws_vpc" "new_vpc1" {
 resource "aws_subnet" "public_subnet" {
   vpc_id = aws_vpc.new_vpc1.id
   cidr_block = "172.25.0.0/20"
-  map_public_ip_on_launch = "true"
+  map_public_ip_on_launch = true
   tags = {
     Name=var.public_subnet
   }
@@ -34,7 +34,7 @@ resource "aws_subnet" "public_subnet" {
 resource "aws_subnet" "private_subnet" {
   vpc_id = aws_vpc.new_vpc1.id
   cidr_block = "172.25.16.0/20"
-  map_public_ip_on_launch = "false"
+  map_public_ip_on_launch = false
   tags = {
     Name="private_subnet"
   }
@@ -62,19 +62,56 @@ resource "aws_route_table" "new_vpc1_route_table" {
     }
 }
 
-data "aws_security_group" "sec-group" {
+
+#subnet association with route table
+resource "aws_route_table_association" "public_sub_with_route" {
+  subnet_id      = aws_subnet.public_subnet.id
+  route_table_id = aws_route_table.new_vpc1_route_table.id
+
+}
+
+/*data "aws_security_group" "sec-group" {
     
     filter {
       name="group-name"
       values = [ "sec-group" ]
     }
 }
+*/
 
+#create security group
+resource "aws_security_group" "my_sec_group" {
+  name        = "my_sec_group"
+  description = "Allow TLS inbound traffic"
+  vpc_id      = aws_vpc.new_vpc1.id
+
+  ingress {
+    description = "TLS from VPC"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "ssh"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+   ingress {
+    description = "TLS from VPC"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "http"
+    cidr_blocks =  ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "my_sec_group"
+  }
+}
+
+#create instance 
 resource "aws_instance" "terraform" {
   ami = "ami-0c1ac8a41498c1a9c"
   instance_type = var.instance_type
   key_name = "newins"
-  vpc_security_group_ids =["data.aws_security_group.sec-group"]
+  vpc_security_group_ids = [aws_security_group.my_sec_group.id]
   
 
   tags = {
